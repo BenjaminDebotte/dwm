@@ -6,8 +6,8 @@
 #define BROWSER "google-chrome-stable"
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
+static const unsigned int snap      = 30;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
@@ -16,14 +16,24 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack Nerd Font:size=12", "JoyPixels:pixelsize=12:antialias=true:autohint=true"  };
-static char dmenufont[]             = "monospace:size=10";
-static char normbgcolor[]           = "#5D5C61";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#c5a910";
-static char selbgcolor[]            = "#5D5C61";
+static const char *fonts[]          = { "Hack Nerd Font:size=11:antialias=true:", "JoyPixels:pixelsize=11:antialias=true:autohint=true"  };
+static char dmenufont[]             = "Hack Nerd Font:size=10";
+
+
+// static char normbgcolor[]           = "#FF0000";
+// static char normbordercolor[]       = "#00FF00";
+// static char normfgcolor[]           = "#0000FF";
+// static char selfgcolor[]            = "#FF00FF";
+// static char selbordercolor[]        = "#00FFFF";
+// static char selbgcolor[]            = "#FFFF00";
+
+static char normbgcolor[]     = "#2f383e";
+static char normbordercolor[] = "#868d80";
+static char normfgcolor[]     = "#d8caac";
+static char selfgcolor[]      = "#2f383e";
+static char selbgcolor[]      = "#a7c080";
+static char selbordercolor[]  = "#a7c080";
+
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -52,9 +62,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	*/
 	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
-	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
-	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
-	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
+	{ TERMCLASS,      NULL,       NULL,       	    0,            0,           1,         0,        -1 },
+	{ NULL,           NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
 	{ TERMCLASS,      "bg",        NULL,       	    1 << 7,       0,           1,         0,        -1 },
 	{ TERMCLASS,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
 	{ TERMCLASS,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
@@ -64,8 +73,11 @@ static const Rule rules[] = {
 static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
+
+
 static const Layout layouts[] = {
 	/* symbol     arrange function */
  	{ " ﬿",	tile },			/* Default: Master on left, slaves on right */
@@ -181,7 +193,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_i,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
 	{ MODKEY,			XK_o,		incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,		XK_o,		incnmaster,     {.i = -1 } },
-	{ MODKEY,			XK_p,			spawn,		SHCMD("passmenu")},
+	{ MODKEY,			XK_p,			spawn,		{.v = (const char*[]){ "passmenu", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL }}},
 	{ MODKEY,			XK_backslash,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
 
@@ -189,7 +201,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} },
 	{ MODKEY,			XK_s,		togglesticky,	{0} },
 	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
-	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
+	{ MODKEY,			XK_d,		spawn,          {.v = dmenucmd  } },
 	{ MODKEY|ShiftMask,		XK_d,		spawn,		{.v = (const char*[]){ "passmenu", NULL } } },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
 	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[8]} },
