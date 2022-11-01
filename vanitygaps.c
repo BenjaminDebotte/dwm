@@ -8,6 +8,7 @@ static void incrgaps(const Arg *arg);
 /* static void incrihgaps(const Arg *arg); */
 /* static void incrivgaps(const Arg *arg); */
 static void togglegaps(const Arg *arg);
+static void togglesmartgaps(const Arg *arg);
 
 /* Layouts */
 static void bstack(Monitor *m);
@@ -45,6 +46,13 @@ static void
 togglegaps(const Arg *arg)
 {
 	enablegaps = !enablegaps;
+	arrange(NULL);
+}
+
+static void
+togglesmartgaps(const Arg *arg)
+{
+	smartgaps = !smartgaps;
 	arrange(NULL);
 }
 
@@ -343,13 +351,13 @@ centeredfloatingmaster(Monitor *m)
 		/* go mfact box in the center if more than nmaster clients */
 		if (m->ww > m->wh) {
 			mw = m->ww * m->mfact - iv*mivf*(MIN(n, m->nmaster) - 1);
-			mh = m->wh * 0.9;
+			mh = m->wh * 0.9 - 2*oh;
 		} else {
 			mw = m->ww * 0.9 - iv*mivf*(MIN(n, m->nmaster) - 1);
 			mh = m->wh * m->mfact;
 		}
 		mx = m->wx + (m->ww - mw) / 2;
-		my = m->wy + (m->wh - mh - 2*oh) / 2;
+		my = m->wy + (m->wh - mh) / 2;
 
 		sx = m->wx + ov;
 		sy = m->wy + oh;
