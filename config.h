@@ -33,12 +33,12 @@ static char dmenufont[] = "Hack Nerd Font:size=10";
 // static char selbordercolor[]        = "#00FFFF";
 // static char selbgcolor[]            = "#FFFF00";
 
-static char normbgcolor[] = "#2f383e";
-static char normbordercolor[] = "#868d80";
-static char normfgcolor[] = "#d8caac";
-static char selfgcolor[] = "#2f383e";
+static char normbgcolor[] = "#272e33";
+static char normbordercolor[] = "#272e33";
+static char normfgcolor[] = "#a7c080";
+static char selfgcolor[] = "#272e33";
 static char selbgcolor[] = "#a7c080";
-static char selbordercolor[] = "#a7c080";
+static char selbordercolor[] = "#272e33";
 
 static char *colors[][3] = {
     /*               fg           bg           border   */
