@@ -88,11 +88,11 @@ static int resizehints = 0; /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
-    {"  󱇂", tile},    /* Default: Master on left, slaves on right */
-    {"󱇇", bstack}, /* Master on top, slaves on bottom */
+    {" 󱇂", tile},   /* Default: Master on left, slaves on right */
+    {" 󱇇", bstack}, /* Master on top, slaves on bottom */
 
-    {" ", spiral},  /* Fibonacci spiral */
-    {" ", dwindle}, /* Decreasing in size right and leftward */
+    {" ", spiral},  /* Fibonacci spiral */
+    {" ", dwindle}, /* Decreasing in size right and leftward */
 
     {"H[]", deck},    /* Master on left, slaves in monocle-like mode on right */
     {"[M]", monocle}, /* All windows on top of eachother */
@@ -168,7 +168,8 @@ static Key keys[] = {
     STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
     /* { MODKEY|ShiftMask,		XK_Escape,	spawn,	SHCMD("") }, */
     {MODKEY, XK_grave, spawn, SHCMD("code")},
-    /* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_grave,	togglescratch,
+     * SHCMD("") },
      */
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
@@ -189,7 +190,7 @@ static Key keys[] = {
      {.v = (const char *[]){"sysact", NULL}}},
 
     {MODKEY, XK_Tab, view, {0}},
-    /* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_Tab,		spawn, SHCMD("") },
      */
     {MODKEY, XK_q, killclient, {0}},
     {MODKEY | ShiftMask, XK_q, spawn, {.v = (const char *[]){"sysact", NULL}}},
@@ -231,13 +232,14 @@ static Key keys[] = {
                             "-nf", normfgcolor, "-sb", selbgcolor, "-sf",
                             selfgcolor, NULL}}},
     {MODKEY, XK_backslash, view, {0}},
-    /* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_backslash,		spawn,
+     * SHCMD("") },
      */
 
     {MODKEY, XK_a, togglegaps, {0}},
     {MODKEY | ShiftMask, XK_a, defaultgaps, {0}},
     {MODKEY, XK_s, togglesticky, {0}},
-    /* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_s,		spawn, SHCMD("") },
      */
     {MODKEY, XK_d, spawn, {.v = dmenucmd}},
     {MODKEY | ShiftMask,
@@ -254,27 +256,27 @@ static Key keys[] = {
     {MODKEY, XK_semicolon, shiftview, {.i = 1}},
     {MODKEY | ShiftMask, XK_semicolon, shifttag, {.i = 1}},
     {MODKEY, XK_apostrophe, togglescratch, {.ui = 1}},
-    /* { MODKEY|ShiftMask,		XK_apostrophe,	spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_apostrophe,	spawn, SHCMD("") },
      */
     {MODKEY | ShiftMask, XK_apostrophe, togglesmartgaps, {0}},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY | ShiftMask, XK_Return, togglescratch, {.ui = 0}},
 
     {MODKEY, XK_z, incrgaps, {.i = +3}},
-    /* { MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_z,		spawn, SHCMD("") },
      */
     {MODKEY, XK_x, incrgaps, {.i = -3}},
-    /* { MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_x,		spawn, SHCMD("") },
      */
     {MODKEY,
      XK_c,
      spawn,
      {.v = (const char *[]){TERMINAL, "-e", "profanity", NULL}}},
-    /* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_c,		spawn, SHCMD("") },
      */
     /* V is automatically bound above in STACKKEYS */
     {MODKEY, XK_b, togglebar, {0}},
-    /* { MODKEY|ShiftMask,		XK_b,		spawn,		SHCMD("") },
+    /* { MODKEY|ShiftMask,		XK_b,		spawn, SHCMD("") },
      */
     {MODKEY,
      XK_n,
@@ -375,8 +377,8 @@ static Key keys[] = {
      {.v = (const char *[]){TERMINAL, "-e", "ncmpcpp", NULL}}},
     {0, XF86XK_AudioMicMute, spawn,
      SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle")},
-    /* { 0, XF86XK_PowerOff,		spawn,		{.v = (const char*[]){ "sysact", NULL
-       } } }, */
+    /* { 0, XF86XK_PowerOff,		spawn,		{.v = (const char*[]){
+       "sysact", NULL } } }, */
     {0,
      XF86XK_Calculator,
      spawn,
@@ -476,73 +478,47 @@ static Button buttons[] = {
     {ClkRootWin, 0, Button2, togglebar, {0}},
 };
 
-void
-setlayoutex(const Arg *arg)
-{
-	setlayout(&((Arg) { .v = &layouts[arg->i] }));
-}
+void setlayoutex(const Arg *arg) { setlayout(&((Arg){.v = &layouts[arg->i]})); }
 
-void
-viewex(const Arg *arg)
-{
-	view(&((Arg) { .ui = 1 << arg->ui }));
-}
+void viewex(const Arg *arg) { view(&((Arg){.ui = 1 << arg->ui})); }
 
-void
-viewall(const Arg *arg)
-{
-	view(&((Arg){.ui = ~0}));
-}
+void viewall(const Arg *arg) { view(&((Arg){.ui = ~0})); }
 
-void
-toggleviewex(const Arg *arg)
-{
-	toggleview(&((Arg) { .ui = 1 << arg->ui }));
-}
+void toggleviewex(const Arg *arg) { toggleview(&((Arg){.ui = 1 << arg->ui})); }
 
-void
-tagex(const Arg *arg)
-{
-	tag(&((Arg) { .ui = 1 << arg->ui }));
-}
+void tagex(const Arg *arg) { tag(&((Arg){.ui = 1 << arg->ui})); }
 
-void
-toggletagex(const Arg *arg)
-{
-	toggletag(&((Arg) { .ui = 1 << arg->ui }));
-}
+void toggletagex(const Arg *arg) { toggletag(&((Arg){.ui = 1 << arg->ui})); }
 
-void
-tagall(const Arg *arg)
-{
-	tag(&((Arg){.ui = ~0}));
-}
+void tagall(const Arg *arg) { tag(&((Arg){.ui = ~0})); }
 
 /* signal definitions */
 /* signum must be greater than 0 */
-/* trigger signals using `xsetroot -name "fsignal:<signame> [<type> <value>]"` */
+/* trigger signals using `xsetroot -name "fsignal:<signame> [<type> <value>]"`
+ */
 static Signal signals[] = {
-	/* signum           function */
-	{ "focusstack",     focusstack },
-	{ "setmfact",       setmfact },
-	{ "togglebar",      togglebar },
-	{ "incnmaster",     incnmaster },
-	{ "togglefloating", togglefloating },
-	{ "focusmon",       focusmon },
-	{ "tagmon",         tagmon },
-	{ "zoom",           zoom },
-	{ "view",           view },
-	{ "viewall",        viewall },
-	{ "viewex",         viewex },
-	{ "toggleview",     view },
-	{ "toggleviewex",   toggleviewex },
-	{ "tag",            tag },
-	{ "tagall",         tagall },
-	{ "tagex",          tagex },
-	{ "toggletag",      tag },
-	{ "toggletagex",    toggletagex },
-	{ "killclient",     killclient },
-	{ "quit",           quit },
-	{ "setlayout",      setlayout },
-	{ "setlayoutex",    setlayoutex },
+    /* signum           function */
+    {"focusstack", focusstack},
+    {"setmfact", setmfact},
+    {"togglebar", togglebar},
+    {"incnmaster", incnmaster},
+    {"togglefloating", togglefloating},
+    {"focusmon", focusmon},
+    {"tagmon", tagmon},
+    {"zoom", zoom},
+    {"view", view},
+    {"viewall", viewall},
+    {"viewex", viewex},
+    {"toggleview", view},
+    {"toggleviewex", toggleviewex},
+    {"tag", tag},
+    {"tagall", tagall},
+    {"tagex", tagex},
+    {"toggletag", tag},
+    {"toggletagex", toggletagex},
+    {"killclient", killclient},
+    {"quit", quit},
+    {"setlayout", setlayout},
+    {"setlayoutex", setlayoutex},
+    {"togglefullscr", togglefullscr},
 };
